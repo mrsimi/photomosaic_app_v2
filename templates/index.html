@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <title>photomosaicapp</title>
+    <style>
+        *,
+        html,
+        body,
+        button,
+        input {
+            font-family: 'Inter', Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .bodyContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+
+        .container {
+            width: 500px;
+        }
+
+       
+
+        #imageView img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type=file]::file-selector-button {
+            text-transform: uppercase;
+            margin: 5px;
+        }
+
+        header {
+            background-color: black;
+            color: white;
+            padding: 10px;
+        }
+
+        .headerContent {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        section {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        .formContent {
+            display: flex;
+            justify-content: center;
+        }
+
+        .firstPart {
+            width: 60%;
+            background-color: #F8F8F8;
+            padding: 30px;
+            margin-right: 10px;
+            border-radius: 10px;
+
+        }
+
+        .secondPart {
+            width: 40%;
+            background-color: #F8F8F8;
+            padding-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            padding: 5px;
+            margin: 10px 0px;
+            border-radius: 5px;
+        }
+        .counter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          button {
+            padding: 5px 10px;
+            margin: 0 10px;
+            cursor: pointer;
+          }
+          .btn{
+            width: 100%;
+            margin: 10px 0px;
+            padding: 5px;
+            box-shadow: 1px .5px 1px 1px black inset;
+          }
+          .slider-container {
+            width: 100%;
+            box-sizing: border-box;
+          }
+          .slider {
+            width: 100%;
+          }
+          
+
+        @media screen and (max-width: 768px) {
+            .headerContent{
+                width: 100%;
+            }
+            .formContent{
+                flex-direction: column;
+            }
+            #imageView {
+                width: 100%;
+            }
+            .firstPart, .secondPart {
+                width: 90%;
+                margin: 0 auto;
+            }
+           
+            section {
+                width: 100%;
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="headerContent">
+            <p>mrmosaic</p>
+            <p>Support</p>
+        </div>
+    </header>
+    <section>
+
+        <h3 style="text-align: center;">Free Online Photo Mosaic App</h3>
+        <p style="text-align: center;">Create stunning photo mosaics with your images</p>
+        <div>
+            <form id="uploadForm" action="/" method="post" enctype="multipart/form-data" class="formContent">
+                <div class="firstPart">
+                    <div id="imageView"></div>
+                    <div>
+                        <p>
+
+                        </p>
+                    </div>
+                </div>
+                <div class="secondPart">
+                    <label for="single_file">1. Add Main Picture</label>
+                    <input id="single_file" type="file" name="single_file" accept="image/*"
+                        onchange="previewImage(event)" />
+                    <label for="multi_files">2. Choose tile images</label>
+                    <input id="multi_files" type="file" name="multi_files" accept="image/*" multiple />
+                    <label for="multi_files">3. Number of Rows and Columns</label>
+                    <div class="counter-container">
+                        <span>Rows:</span>
+                        <button type="button" onclick="decrease()">-</button>
+                        <span id="counter" name="counter">10</span>
+                        <button type="button" onclick="increase()">+</button>
+                        <span>Columns:</span>
+                        <button type="button" onclick="decreaseVer()">-</button>
+                        <span id="counterVer" name="counterVer">10</span>
+                        <button type="button" onclick="increaseVer()">+</button>
+                      </div>
+
+
+                        <label for="slider">4. Choose opacity of the tile images</label>
+                        <input type="range" id="slider" name="slider" min="20" max="100" value="50" onchange="updateValue(this.value)" class="slider">
+                        <p id="sliderValue" style="text-align: center; margin:0px">50</p>
+
+                        <label for="single_file">5. Generate and Download Mosaic</label>
+
+                        <input type="hidden" id="hor_tile" name="hor_tile">
+                        <input type="hidden" id="ver_tile" name="ver_tile">
+                        <input type="submit" value="Generate Mosaic" class="btn"/>
+                        
+                        <p>Sample of a photographic mosaic:</p>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Mosaicr_seagull.jpg/800px-Mosaicr_seagull.jpg" width="100%"/>
+                        <p>
+                            Mosaic of a seagull (using birds and other nature imagery as hexagonal tiles). <a href="https://en.wikipedia.org/wiki/File:Mosaicr_seagull.jpg">[Wikipedia]</a>
+                        </p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        function updateValue(val) {
+            document.getElementById('sliderValue').textContent = val;
+          }
+        function previewImage(event) {
+            var file = event.target.files[0];
+            console.log(file)
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var imageView = document.getElementById('imageView');
+                    imageView.innerHTML = ''; // Clear previous content
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    imageView.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        let counterValue = 10;
+        const counterElement = document.getElementById('counter');
+      
+        function updateCounter() {
+          counterElement.textContent = counterValue;
+          document.getElementById('hor_tile').value = counterValue;
+        }
+      
+        function increase() {
+          counterValue++;
+          updateCounter();
+        }
+      
+        function decrease() {
+          if (counterValue > 10) {
+            counterValue--;
+            updateCounter();
+          }
+        }
+
+        let counterValueVer = 10;
+        const counterElementVer = document.getElementById('counterVer');
+      
+        function updateCounterVer() {
+            counterElementVer.textContent = counterValueVer;
+            document.getElementById('ver_tile').value = counterValueVer;
+        }
+      
+        function increaseVer() {
+            counterValueVer++;
+            updateCounterVer();
+        }
+      
+        function decreaseVer() {
+          if (counterValueVer > 10) {
+            counterValueVer--;
+            updateCounterVer();
+          }
+        }
+    </script>
+</body>
+
+</html>
